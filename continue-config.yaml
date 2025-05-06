@@ -1,0 +1,50 @@
+name: Daniel's Coding Copilot
+version: 1.0.7
+schema: v1
+models:
+  - uses: relace/instant-apply
+    with:
+      RELACE_API_KEY: ${{ secrets.RELACE_API_KEY }}
+  - uses: anthropic/claude-3-7-sonnet
+    with:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    override:
+      roles:
+        - chat
+        - edit
+        - apply
+  - uses: anthropic/claude-3-5-sonnet
+    with:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    override:
+      roles:
+        - chat
+        - edit
+        - apply
+  - uses: mistral/codestral
+    with:
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+    override:
+      roles:
+        - autocomplete
+  - uses: voyageai/voyage-code-3
+    with:
+      VOYAGE_API_KEY: ${{ secrets.VOYAGE_API_KEY }}
+  - uses: voyageai/rerank-2
+    with:
+      VOYAGE_API_KEY: ${{ secrets.VOYAGE_API_KEY }}
+context:
+  - uses: continuedev/diff-context
+  - uses: continuedev/codebase-context
+  - uses: continuedev/url-context
+  - uses: continuedev/folder-context
+  - uses: continuedev/terminal-context
+  - uses: continuedev/code-context
+  - uses: continuedev/file-context
+rules:
+  - uses: daniel-rosehill/basic-role
+  - uses: daniel-rosehill/basic-env
+  - uses: daniel-rosehill/python-guides
+  - uses: daniel-rosehill/ai-user-exchange
+  - uses: daniel-rosehill/code-only-please
+  - uses: daniel-rosehill/look-stuff-up
